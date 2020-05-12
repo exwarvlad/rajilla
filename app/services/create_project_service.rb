@@ -1,4 +1,4 @@
-class ProjectService
+class CreateProjectService
   attr_reader :params
 
   def initialize(params)
