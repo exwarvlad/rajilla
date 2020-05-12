@@ -1,6 +1,7 @@
 class Task < ApplicationRecord
   belongs_to :project
 
+  validates :project, presence: true
   validates :urls, presence: true
   validates :progress, inclusion: { in: 0..100, allow_blank: true }
 
@@ -15,7 +16,7 @@ class Task < ApplicationRecord
   def date_biggest_or_eq_curr
     return unless estimate_date
 
-    errors.add(:estimate_date, "can't be less then current date") if proc { estimate_date < Time.zone.today }
+    errors.add(:estimate_date, "can't be less then current date") if proc { estimate_date < Time.zone.today }.call
   end
 
   def price_less_or_eq_project_price

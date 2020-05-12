@@ -29,9 +29,9 @@ ActiveRecord::Schema.define(version: 2020_05_11_133409) do
     t.date "estimate_date"
     t.decimal "price"
     t.string "urls", default: [], null: false, array: true
-    t.integer "status"
-    t.integer "progress"
-    t.bigint "project_id"
+    t.integer "status", default: 0, null: false
+    t.integer "progress", default: 0, null: false
+    t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
