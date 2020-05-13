@@ -7,7 +7,11 @@ class TasksController < ApplicationController
     CreateBatchTasksService.new(params).call
   rescue ActiveRecord::RecordInvalid => e
     render json: e.message, status: 422
-  ensure
-    render json: '0K'
+  end
+
+  def batch_update
+    UpdateBatchTasksService.new(params).call
+  rescue ActiveRecord::RecordNotFound => e
+    render json: e.message, status: 422
   end
 end
