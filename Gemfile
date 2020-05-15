@@ -31,6 +31,9 @@ gem 'fast_jsonapi', '~> 1.5'
 # archivator
 gem 'zip', '~> 2.0.2'
 
+# dynamic http/https downloader
+gem 'curb'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
