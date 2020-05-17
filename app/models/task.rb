@@ -11,6 +11,8 @@ class Task < ApplicationRecord
 
   enum status: %i[initialized proccesing failed finished]
 
+  before_save :compile_archive_and_push_to_s3
+
   private
 
   def date_biggest_or_eq_curr
@@ -27,5 +29,9 @@ class Task < ApplicationRecord
 
   def scan_urls
     errors.add(:price, "wrong urls") unless urls.all? { |url| url =~ URI::regexp }
+  end
+
+  def compile_archive_and_push_to_s3
+    ArchiveUploaderWorker.perform_async(urls) if urls_changed?
   end
 end

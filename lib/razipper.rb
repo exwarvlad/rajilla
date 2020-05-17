@@ -9,7 +9,7 @@ class Razipper
   include ConnectionValidation
   include FilesUploader
 
-  attr_reader :list_of_urls, :archive_folder, :archive_path
+  attr_reader :list_of_urls, :archive_folder, :archive_path, :archive_name
 
   def initialize(list_of_urls)
     @list_of_urls = list_of_urls.map { |url| URI(url) }
@@ -19,6 +19,7 @@ class Razipper
     easy_validate!(list_of_urls: list_of_urls, max_size: limit_files_size)
     responses = grub_files_by_urls(list_of_urls, limit_files_size)
     @archive_path = generate_uniq_tmp_folder + '/' + name + '.zip'
+    @archive_name = name
 
     Zip::ZipOutputStream.open(archive_path) do |zio|
       list_of_urls.each_with_index do |url, i|
@@ -32,7 +33,7 @@ class Razipper
   end
 
   def remove_zip
-    FileUtils.remove_dir(archive_path) if File.directory?(archive_path)
+    FileUtils.remove_dir(archive_folder) if File.directory?(archive_folder)
   end
 
   private
