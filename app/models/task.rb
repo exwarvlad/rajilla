@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+  include RajillaWebsocketBroadcaster
+
   belongs_to :project
 
   validates :project, presence: true
@@ -9,9 +11,11 @@ class Task < ApplicationRecord
   validate :price_less_or_eq_project_price
   validate :scan_urls
 
-  enum status: %i[initialized proccesing failed finished]
+  after_create :compile_archive_and_push_to_s3
+  after_update :compile_archive_and_push_to_s3, if: proc { urls_changed? }
+  after_update :report_to_tasks_notifications
 
-  before_save :compile_archive_and_push_to_s3
+  enum status: %i[initialized proccesing failed finished]
 
   private
 
@@ -32,6 +36,10 @@ class Task < ApplicationRecord
   end
 
   def compile_archive_and_push_to_s3
-    ArchiveUploaderWorker.perform_async(urls) if urls_changed?
+    ArchiveUploaderWorker.perform_async(urls, id)
+  end
+
+  def report_to_tasks_notifications
+    broadcast(TaskSerializer.new(self).serialized_json)
   end
 end

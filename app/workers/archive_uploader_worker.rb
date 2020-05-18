@@ -3,7 +3,7 @@ require_relative '../../lib/razipper'
 class ArchiveUploaderWorker
   include Sidekiq::Worker
 
-  def perform(urls)
+  def perform(urls, task_id)
     razipper = Razipper.new(urls)
     razipper.zip
 
