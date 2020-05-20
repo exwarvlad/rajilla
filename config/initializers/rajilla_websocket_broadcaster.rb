@@ -2,6 +2,7 @@ require 'faye/websocket'
 require 'eventmachine'
 
 module RajillaWebsocketBroadcaster
+  # TODO: Do it to one flow
   def broadcast(message)
     EM.run {
       ws = Faye::WebSocket::Client.new(ENV['WS_URL'])

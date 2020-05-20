@@ -40,6 +40,6 @@ class Task < ApplicationRecord
   end
 
   def report_to_tasks_notifications
-    broadcast(TaskSerializer.new(self).serialized_json)
+    broadcast(JSON(TaskSerializer.new(self).serializable_hash))
   end
 end

@@ -13,6 +13,7 @@ class S3UploaderService
     s3_resource = Aws::S3::Resource.new(region:'us-west-2')
     obj = s3_resource.bucket(find_or_create_bucket).object(SecureRandom.hex(5) + '_' + file_name)
     obj.upload_file(file_path)
+    obj.public_url
   end
 
   private
