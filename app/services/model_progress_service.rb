@@ -15,11 +15,15 @@ class ModelProgressService
     progress_rate = bits_of_files_size_sum.to_f / limit
     @inbox_size += data_size
 
-    @progress = (@inbox_size / progress_rate).round
-    model.update!(progress: @progress) if @progress > @prev_progress.to_i
+    @additional_progress = (@inbox_size / progress_rate).round + @progress
+    model.update!(progress: @additional_progress) if @additional_progress > @prev_progress.to_i
 
-    @prev_progress = @progress
-    @progress
+    @prev_progress = @additional_progress
+    @additional_progress
+  end
+
+  def reload_progress
+    @progress = model.reload.progress
   end
 
   private

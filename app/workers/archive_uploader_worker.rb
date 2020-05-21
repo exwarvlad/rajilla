@@ -15,9 +15,10 @@ class ArchiveUploaderWorker
 
       razipper.zip(progress_service: model_progress_service)
 
-      # model_progress_service.limit = 100 # TODO: add progress updating for S3UploaderService
-      url = S3UploaderService.new(file_name: razipper.archive_name, file_path: razipper.archive_path).call
-      current_task.update(status: :finished)
+      model_progress_service.reload_progress
+      url = S3UploaderService.new(file_name: razipper.archive_name, file_path: razipper.archive_path)
+                             .call(progress_service: model_progress_service)
+      current_task.update(progress: 100, status: :finished)
       broadcast(url)
     rescue => e
       STDERR.puts e.message
