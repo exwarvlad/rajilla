@@ -15,7 +15,7 @@ class Task < ApplicationRecord
   after_update :compile_archive_and_push_to_s3, if: proc { urls_changed? }
   after_update :report_to_tasks_notifications
 
-  enum status: %i[initialized proccesing failed finished]
+  enum status: %i[initialized processing failed finished]
 
   private
 

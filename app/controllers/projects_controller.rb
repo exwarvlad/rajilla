@@ -5,9 +5,5 @@ class ProjectsController < ApplicationController
 
   def create
     CreateProjectService.new(params).call
-  rescue ActionController::ParameterMissing => e
-    render json: e.message, status: :bad_request
-  ensure
-    render json: '0K'
   end
 end

@@ -10,7 +10,7 @@ class ArchiveUploaderWorker
     begin
       razipper = Razipper.new(urls)
       current_task = Task.find(task_id)
-      current_task.update(status: :proccesing)
+      current_task.update(status: :processing)
       model_progress_service = ModelProgressService.new(model: current_task, limit: 50, bits_of_files: nil)
 
       razipper.zip(progress_service: model_progress_service)
