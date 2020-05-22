@@ -11,7 +11,7 @@ class Task < ApplicationRecord
   validate :price_less_or_eq_project_price
   validate :scan_urls
 
-  after_create :compile_archive_and_push_to_s3
+  after_create_commit :compile_archive_and_push_to_s3
   after_update :compile_archive_and_push_to_s3, if: proc { urls_changed? }
   after_update :report_to_tasks_notifications
 
@@ -40,6 +40,6 @@ class Task < ApplicationRecord
   end
 
   def report_to_tasks_notifications
-    broadcast(JSON(TaskSerializer.new(self).serializable_hash))
+    broadcast(TaskSerializer.new(self).serialized_json)
   end
 end
