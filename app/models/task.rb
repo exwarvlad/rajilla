@@ -10,6 +10,7 @@ class Task < ApplicationRecord
   validate :date_biggest_or_eq_curr
   validate :price_less_or_eq_project_price
   validate :scan_urls
+  validate :scan_content
 
   after_create_commit :compile_archive_and_push_to_s3
   after_update :compile_archive_and_push_to_s3, if: proc { urls_changed? }
@@ -32,7 +33,21 @@ class Task < ApplicationRecord
   end
 
   def scan_urls
-    errors.add(:price, "wrong urls") unless urls.all? { |url| url =~ URI::regexp }
+    urls.each do |url|
+      errors.add(:urls, "wrong url: #{url}") unless url =~ URI::regexp
+    end
+  end
+
+  def scan_content
+    urls.each do |url|
+      url = URI(url)
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = (url.scheme == 'https')
+
+      errors.add(:urls, "url: #{url} hasn't content-length") if http.request_head(url)['content-length'].to_i <= 0
+    rescue
+      errors.add(:urls, "can not open this url: #{url}")
+    end
   end
 
   def compile_archive_and_push_to_s3
