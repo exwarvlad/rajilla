@@ -1083,8 +1083,8 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3)
-  redis
-  sidekiq
+  redis (~> 4.1.4)
+  sidekiq (~> 6.0.7)
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
