@@ -5,6 +5,7 @@ module RescueException
     rescue_from ::ActiveRecord::RecordInvalid, with: :record_invalid
     rescue_from ::ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ::ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from ::ActiveRecord::RecordNotUnique, with: :record_not_uniq
   end
 
   def record_invalid(exception)
@@ -20,6 +21,10 @@ module RescueException
   end
 
   def record_not_found(exception)
+    render json: exception.message, status: :unprocessable_entity
+  end
+
+  def record_not_uniq(exception)
     render json: exception.message, status: :unprocessable_entity
   end
 end

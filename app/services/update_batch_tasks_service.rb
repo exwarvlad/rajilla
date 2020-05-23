@@ -11,8 +11,8 @@ class UpdateBatchTasksService
 
   def set_params
     tasks =
-      params.require(:tasks).map do |task|
-        task.permit(:name, :description, :estimate_date, :price, :task_id, urls: [])
+      params[:tasks].map do |task|
+        task.permit!
       end
     tasks.each { |hash| hash.delete(:task_id) }
   end
