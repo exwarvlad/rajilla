@@ -1,4 +1,5 @@
 class UpdateBatchTasksService
+  include RajillaWebsocketBroadcaster
   attr_reader :params
 
   def initialize(params)
@@ -6,7 +7,9 @@ class UpdateBatchTasksService
   end
 
   def call
-    Task.transaction { Task.update(set_ids, set_params) }
+    ids = set_ids
+    Task.transaction { Task.update(ids, set_params) }
+    broadcast(TaskSerializer.new(Task.where(id: ids)).serialized_json)
   end
 
   def set_params

@@ -12,7 +12,7 @@ class ProjectSerializer
         .order(estimate_date: :asc)
         .limit(1)
         .first
-        .estimate_date
+        &.estimate_date
   end
 
   attribute :status do |object|
@@ -21,7 +21,7 @@ class ProjectSerializer
         .order(status: :asc)
         .limit(1)
         .first
-        .status
+        &.status
   end
 
   attribute :progress do |object|
@@ -30,6 +30,6 @@ class ProjectSerializer
         .order(progress: :asc)
         .limit(1)
         .first
-        .progress
+        &.progress
   end
 end

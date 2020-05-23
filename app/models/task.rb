@@ -13,7 +13,7 @@ class Task < ApplicationRecord
   validate :scan_content
 
   after_create_commit :compile_archive_and_push_to_s3
-  after_update :compile_archive_and_push_to_s3, if: proc { urls_changed? }
+  after_update :compile_archive_and_push_to_s3, if: :urls_changed?
   after_update :report_to_tasks_notifications
 
   enum status: %i[initialized processing failed finished]

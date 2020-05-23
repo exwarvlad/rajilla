@@ -1,24 +1,49 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# How to start
 
-Things you may want to cover:
+You must add to .env  
+AWS_ACCESS_KEY_ID  
+AWS_SECRET_ACCESS_KEY
 
-* Ruby version
+Start these commands
 
-* System dependencies
+`bundle install`  
+`rails db:create`  
+`rails db:migrate`  
+`rails s`  
+`bundle exec sidekiq`  
+`ruby em.ru`
 
-* Configuration
+## Dependence  
+Ruby 2.6.3  
+Redis  
+Postgres
 
-* Database creation
 
-* Database initialization
+## For example endpoint
 
-* How to run the test suite
+### Check all projects
+```shell script
+CURL -X GET localhost:3000/projects
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### Create project
+```shell script
+curl -H 'Content-Type: application/json' -X POST -d '{"project": {"name": "yo-yo", "description": "so yo", "price": 500 }}' http://localhost:3000/projects
+```
 
-* Deployment instructions
+### Check all tasks
+```shell script
+CURL -X GET localhost:3000/tasks
+```
 
-* ...
+### Batch create task
+```shell script
+curl -H 'Content-Type: application/json' -X POST  -d '{"tasks": [{"name": "buy greenery4211", "urls": ["https://archicgi.com/wp-content/uploads/2019/12/archicgi-logotype-black.png"], "project_id": 2}, {"name": "buy greenery 4242123123", "urls": ["https://archicgi.com/wp-content/uploads/2019/12/archicgi-logotype-black.png", "https://speed.hetzner.de/1GB.bin"], "project_id": 1}]}' http://localhost:3000/tasks/batch_create
+```
+
+### Task batch update
+```shell script
+curl -H 'Content-Type: application/json' -X POST  -d '{"tasks": [{"task_id": 1, "name": "buy greenery4211", "urls": ["https://archicgi.com/wp-content/uploads/2019/12/archicgi-logotype-black.png"]}, {"task_id": 2, "name": "buy greenery 4242123123", "urls": ["https://archicgi.com/wp-content/uploads/2019/12/archicgi-logotype-black.png", "https://tinyjpg.com/images/social/website.jpg"]}]}' http://localhost:3000/tasks/batch_update
+```
