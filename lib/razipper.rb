@@ -37,6 +37,7 @@ class Razipper
 
   def remove_zip
     return unless archive_folder
+
     FileUtils.remove_dir(archive_folder) if File.directory?(archive_folder)
   end
 
@@ -46,7 +47,7 @@ class Razipper
     hash = {}
     list_of_urls.each do |url|
       http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = (url.scheme == "https")
+      http.use_ssl = (url.scheme == 'https')
 
       hash[url.to_s] = http.request_head(url)['content-length'].to_i
     end

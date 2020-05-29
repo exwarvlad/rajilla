@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ModelProgressService
   attr_reader :model
   attr_accessor :limit, :bits_of_files

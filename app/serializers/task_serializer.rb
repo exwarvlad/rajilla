@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TaskSerializer
   include FastJsonapi::ObjectSerializer
   attributes :name, :description, :estimate_date, :price, :status, :progress, :project

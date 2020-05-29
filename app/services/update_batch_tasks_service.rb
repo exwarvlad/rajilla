@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateBatchTasksService
   include RajillaWebsocketBroadcaster
   attr_reader :params
@@ -14,9 +16,7 @@ class UpdateBatchTasksService
 
   def set_params
     tasks =
-      params[:tasks].map do |task|
-        task.permit!
-      end
+      params[:tasks].map(&:permit!)
     tasks.each { |hash| hash.delete(:task_id) }
   end
 

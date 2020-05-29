@@ -1,22 +1,23 @@
+# frozen_string_literal: true
+
 require 'faye/websocket'
-require 'thread'
 require 'redis'
 
 module TaskNotification
   class TaskNotificationBackend
     KEEPALIVE_TIME = 15 # in seconds
-    CHANNEL        = "tasks-notifications"
+    CHANNEL        = 'tasks-notifications'
 
     def initialize(app)
       @app     = app
       @clients = []
-      uri = URI.parse(ENV["REDISCLOUD_URL"] || 'redis://localhost:6379/3')
+      uri = URI.parse(ENV['REDISCLOUD_URL'] || 'redis://localhost:6379/3')
       @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
       Thread.new do
         redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
         redis_sub.subscribe(CHANNEL) do |on|
           on.message do |_channel, msg|
-            @clients.each {|ws| ws.send(msg) }
+            @clients.each { |ws| ws.send(msg) }
           end
         end
       end
@@ -24,7 +25,7 @@ module TaskNotification
 
     def call(env)
       if Faye::WebSocket.websocket?(env)
-        ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
+        ws = Faye::WebSocket.new(env, nil, { ping: KEEPALIVE_TIME })
         ws.on :open do
           p [:open, ws.object_id]
           @clients << ws

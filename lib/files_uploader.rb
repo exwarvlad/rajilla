@@ -17,7 +17,7 @@ class FilesUploader
   def grub_files_by_urls(model_progress_service)
     requests.each do |url|
       url = url.to_s
-      responses[url] = ""
+      responses[url] = ''
       c = Curl::Easy.new(url) do |curl|
         curl.follow_location = true
         curl.on_body do |data|

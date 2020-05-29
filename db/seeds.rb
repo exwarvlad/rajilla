@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 project = Project.new(name: 'bum-shaka-laka-bum', price: 42.42)
 
 5.times do |i|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../lib/razipper'
 
 class ArchiveUploaderWorker
@@ -7,8 +9,8 @@ class ArchiveUploaderWorker
   sidekiq_options retry: 0
 
   def perform(urls, task_id)
+    razipper = Razipper.new(urls)
     begin
-      razipper = Razipper.new(urls)
       current_task = Task.find(task_id)
       current_task.update(status: :processing)
       model_progress_service = ModelProgressService.new(model: current_task, limit: 50, bits_of_files: nil)
@@ -20,8 +22,8 @@ class ArchiveUploaderWorker
                              .call(progress_service: model_progress_service, model: current_task)
       current_task.update(progress: 100, status: :finished)
       broadcast(url)
-    rescue => e
-      STDERR.puts e.message
+    rescue StandardError => e
+      warn e.message
       current_task.update(status: :failed)
     end
     razipper.remove_zip

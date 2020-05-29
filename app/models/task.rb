@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Task < ApplicationRecord
   include RajillaWebsocketBroadcaster
 
@@ -34,7 +36,7 @@ class Task < ApplicationRecord
 
   def scan_urls
     urls.each do |url|
-      errors.add(:urls, "wrong url: #{url}") unless url =~ URI::regexp
+      errors.add(:urls, "wrong url: #{url}") unless url =~ URI::DEFAULT_PARSER.make_regexp
     end
   end
 
@@ -45,7 +47,7 @@ class Task < ApplicationRecord
       http.use_ssl = (url.scheme == 'https')
 
       errors.add(:urls, "url: #{url} hasn't content-length") if http.request_head(url)['content-length'].to_i <= 0
-    rescue
+    rescue StandardError
       errors.add(:urls, "can not open this url: #{url}")
     end
   end
