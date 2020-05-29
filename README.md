@@ -5,6 +5,7 @@
 You must add to .env  
 AWS_ACCESS_KEY_ID  
 AWS_SECRET_ACCESS_KEY
+S3_BUCKET
 
 Start these commands
 

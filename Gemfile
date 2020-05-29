@@ -22,7 +22,7 @@ gem 'zip', '~> 2.0.2'
 # dynamic http/https downloader
 gem 'curb'
 
-gem 'aws-sdk', '~> 3'
+gem 'aws-sdk-s3', '~> 1.67.0'
 
 # background job
 gem 'redis', '~> 4.1.4'

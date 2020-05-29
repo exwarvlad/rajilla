@@ -17,7 +17,7 @@ class ArchiveUploaderWorker
 
       model_progress_service.reload_progress
       url = S3UploaderService.new(file_name: razipper.archive_name, file_path: razipper.archive_path)
-                             .call(progress_service: model_progress_service)
+                             .call(progress_service: model_progress_service, model: current_task)
       current_task.update(progress: 100, status: :finished)
       broadcast(url)
     rescue => e
