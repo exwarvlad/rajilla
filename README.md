@@ -1,10 +1,26 @@
-# README
-
+# Description
+Functional:
+- When creating a task - the urls field is passed to it, in which links are indicated
+to files. These can be any links on any site, the only
+condition - these must be links to files. After creating a task
+these files are combined into an archive and this archive is uploaded to AWS S3. TO
+for example: 3 links were passed in the urls field - https://site.com/logo1.png,
+https://site.com/logo2.png, https://site.com/logo3.png. They should be
+combined into one archive and this archive must be uploaded to S3. Sami
+files on S3 do not need to be uploaded, only archive.
+- After starting the formation of the archive, the status field of the task changes to
+processing, in case of an error - changes to failed, after completion - to finished
+- As the archive is being formed, the progress field changes, in which the
+indicate the number of percent for which the archive is formed
+- When changing any of the task fields - information about this is sent by
+websockets
+- After the completion of the formation of the archive, a link is sent via websockets
+to the generated archive
 # How to start
 
 You must add to .env  
 AWS_ACCESS_KEY_ID  
-AWS_SECRET_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY  
 S3_BUCKET
 
 Start these commands
