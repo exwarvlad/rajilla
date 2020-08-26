@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,32 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_529_065_113) do
+ActiveRecord::Schema.define(version: 2020_05_29_081511) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'projects', force: :cascade do |t|
-    t.string 'name', null: false
-    t.string 'description'
-    t.decimal 'price', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "projects", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.decimal "price", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table 'tasks', force: :cascade do |t|
-    t.string 'name', null: false
-    t.string 'description'
-    t.date 'estimate_date'
-    t.decimal 'price'
-    t.string 'urls', default: [], null: false, array: true
-    t.integer 'status', default: 0, null: false
-    t.integer 'progress', default: 0, null: false
-    t.bigint 'project_id', null: false
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.string 'archive_public_url'
-    t.index ['project_id'], name: 'index_tasks_on_project_id'
+  create_table "tasks", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.date "estimate_date"
+    t.decimal "price", default: "0.0"
+    t.text "urls", default: [], null: false, array: true
+    t.integer "status", default: 0, null: false
+    t.integer "progress", default: 0, null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "archive_public_url"
+    t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
-  add_foreign_key 'tasks', 'projects'
+  add_foreign_key "tasks", "projects"
 end

@@ -5,6 +5,7 @@ class Task < ApplicationRecord
 
   belongs_to :project
 
+  validates :name, presence: true
   validates :project, presence: true
   validates :urls, presence: true
   validates :progress, inclusion: { in: 0..100, allow_blank: true }
